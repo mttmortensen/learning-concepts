@@ -12,10 +12,13 @@ public class PlayerHealth : MonoBehaviour
 
     public Animator anim;
 
+    private SpriteRenderer spriteRenderer;
+
     private void Start()
     {
         currentHealth = startingHealth;
         healthBar.SetMaxHealth(currentHealth);
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void TakeDamage(int damage)
@@ -29,7 +32,6 @@ public class PlayerHealth : MonoBehaviour
             currentHealth -= damage;
             healthBar.SetHealth(currentHealth);
             anim.SetTrigger("Hurt");
-            StartCoroutine(DelayAfterHurt());
         }
         else
         {
@@ -38,10 +40,5 @@ public class PlayerHealth : MonoBehaviour
         }
 
 
-    }
-
-    IEnumerator DelayAfterHurt()
-    {
-        yield return new WaitForSeconds(5f);
     }
 }
