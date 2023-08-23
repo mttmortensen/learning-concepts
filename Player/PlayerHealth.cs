@@ -26,9 +26,10 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealth > 0) 
         {
 
+            currentHealth -= damage;
             healthBar.SetHealth(currentHealth);
             anim.SetTrigger("Hurt");
-
+            StartCoroutine(DelayAfterHurt());
         }
         else
         {
@@ -37,5 +38,10 @@ public class PlayerHealth : MonoBehaviour
         }
 
 
+    }
+
+    IEnumerator DelayAfterHurt()
+    {
+        yield return new WaitForSeconds(5f);
     }
 }
