@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -12,13 +13,11 @@ public class PlayerHealth : MonoBehaviour
 
     public Animator anim;
 
-    private SpriteRenderer spriteRenderer;
-
     private void Start()
     {
         currentHealth = startingHealth;
         healthBar.SetMaxHealth(currentHealth);
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
     }
 
     public void TakeDamage(int damage)
@@ -35,10 +34,20 @@ public class PlayerHealth : MonoBehaviour
         }
         else
         {
-            // Player Dead
-            Debug.Log("Player is dead");
+            anim.SetTrigger("Death");
+            HandlePlayerDeath();
         }
 
 
+    }
+
+    private void HandlePlayerDeath()
+    {
+        GetComponent<PlayerMovement>().enabled = false;
+    }
+
+    private void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
