@@ -19,6 +19,25 @@ public class PlayerAttack : MonoBehaviour
 
     }
 
+    public void EnableAttackCollider()
+    {
+        if (attackCollider != null)
+        {
+            attackCollider.enabled = true;
+        }
+    }
 
+    public void DisableAttackCollider()
+    {
+        if (attackCollider != null)
+        {
+            attackCollider.enabled = false;
+        }
+    }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+            Debug.Log("Ah you hit someone!");
+    }
 }
