@@ -4,9 +4,17 @@ using UnityEngine;
 
 public class EnemyDeath : MonoBehaviour
 {
+    [SerializeField] private Animator anim;
+
     public void Death()
     {
-        Debug.Log("Ah you killed me");
+        anim.SetTrigger("Death");
+        StartCoroutine(RemoveBody());    
+    }
+
+    IEnumerator RemoveBody()
+    {
+        yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
 
