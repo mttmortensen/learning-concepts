@@ -38,6 +38,8 @@ public class PlayerAttack : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemy"))
-            Debug.Log("Ah you hit someone!");
+        {
+            collision.GetComponent<EnemyDeath>().Death();
+        }
     }
 }
