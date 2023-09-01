@@ -6,15 +6,24 @@ public class EnemyDeath : MonoBehaviour
 {
     [SerializeField] private Animator anim;
 
+    private bool isDead = false;
+
     public void Death()
     {
-        anim.SetTrigger("Death");
-        StartCoroutine(RemoveBody());    
+        if(!isDead)
+        {
+            isDead = true;
+            anim.SetTrigger("Death");
+            StartCoroutine(RemoveBody());    
+        }
     }
 
-    IEnumerator RemoveBody()
+    private IEnumerator RemoveBody()
     {
-        yield return new WaitForSeconds(0.5f);
+        // Wait for the length of the death animation
+        yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
+        // Amount of time before object is destoryed
+        yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }
 
