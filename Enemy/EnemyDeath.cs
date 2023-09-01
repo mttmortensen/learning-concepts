@@ -5,6 +5,8 @@ using UnityEngine;
 public class EnemyDeath : MonoBehaviour
 {
     [SerializeField] private Animator anim;
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private new Collider2D collider;
 
     private bool isDead = false;
 
@@ -14,6 +16,9 @@ public class EnemyDeath : MonoBehaviour
         {
             isDead = true;
             anim.SetTrigger("Death");
+            rb.isKinematic = true;
+            collider.enabled = false;
+            GetComponent<PatrollingEnemy>().enabled = false;
             StartCoroutine(RemoveBody());    
         }
     }
