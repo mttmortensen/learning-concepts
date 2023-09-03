@@ -11,8 +11,14 @@ public class EnemyAttack : MonoBehaviour
     [SerializeField] private Animator anim;
     [SerializeField] private float checkRate = 0.2f; // Check every 0.2 seconds
     [SerializeField] private int attackDamage = 1;
+    [SerializeField] private Collider2D attackCollider;
 
     private float nextCheck;
+
+    private void Start()
+    {
+        attackCollider.enabled = false;
+    }
 
     void Update()
     {
@@ -21,6 +27,15 @@ public class EnemyAttack : MonoBehaviour
             nextCheck = Time.time + checkRate;
             CheckForPlayer();
         }
+    }
+    public void EnableAttackCollider()
+    {
+        attackCollider.enabled = true;
+    }
+
+    public void DisableAttackCollider()
+    {
+        attackCollider.enabled = false;
     }
 
     void CheckForPlayer()

@@ -39,7 +39,13 @@ public class PlayerAttack : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
-            collision.GetComponent<EnemyDeath>().Death();
+
+            EnemyDeath ed = collision.GetComponent<EnemyDeath>();
+
+            if (ed != null)
+            {
+                ed.Death();
+            }
         }
     }
 }
