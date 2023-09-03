@@ -7,8 +7,10 @@ public class ItemCollector : MonoBehaviour
 {
     // Variable to keep track of the number of collected items
     private int silverGemsCount = 0;
+    public int totalSilverGems;
 
     [SerializeField] private Text silverGemsText;
+    [SerializeField] private DoorController doorController;
 
     // This method is called when the player's collider enters another collider marked as a trigger
     private void OnTriggerEnter2D(Collider2D other)
@@ -24,8 +26,14 @@ public class ItemCollector : MonoBehaviour
 
             // Destroy the collected gem so it disappears from the scene
             Destroy(other.gameObject);
+
+            // Check if all the silver gems have been collected for the level
+            if (silverGemsCount >= totalSilverGems)
+            {
+                doorController.OpenDoor();
+            }
         }
 
-        // You can add more conditions here for other types of collectible items
+        
     }
 }
