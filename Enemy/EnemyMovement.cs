@@ -4,37 +4,41 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    public float moveSpeed = 2f;
+    public float moveSpeed;
+    private bool moveToLeft = false;
 
-    private Rigidbody2D rb;
-
-    private Rigidbody2D Rb
+    private void Update()
     {
-        get
+        Move();
+    }
+
+
+    private void Move()
+    {
+        if (moveToLeft)
         {
-            if (rb == null)
-            {
-                rb = GetComponent<Rigidbody2D>();
-            }
-            return rb;
+            // Move left
+            transform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
+        }
+        else
+        {
+            // Move right
+            transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
         }
     }
-
-
-    private void Start()
+    public void SetDirection(bool toLeft)
     {
-        rb = GetComponent<Rigidbody2D>();
-    }
-
-    public void MoveRight()
-    {
-        transform.localScale = new Vector3(1, 1, 1); // Face right
-        transform.Translate(Vector2.right * transform.localScale.x * moveSpeed * Time.deltaTime); // Move enemy
-    }
-
-    public void MoveLeft()
-    {
-        transform.localScale = new Vector3(-1, 1, 1); // Face left
-        transform.Translate(Vector2.left * transform.localScale.x * moveSpeed * Time.deltaTime); // Move enemy
+        moveToLeft = toLeft;
+        if (moveToLeft)
+        {
+            // Face left
+            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
+        else
+        {
+            // Face right
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
     }
 }
+
