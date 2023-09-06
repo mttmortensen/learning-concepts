@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
-    public float spawnInterval = 2f;
+    public float spawnInterval;
     public Transform leftSpawnPoint;
     public Transform rightSpawnPoint;
 
@@ -27,18 +27,20 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy()
     {
         Transform spawnPoint = (Random.Range(0, 2) == 0) ? leftSpawnPoint : rightSpawnPoint;
+
         GameObject spawnedEnemy = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
         EnemyMovement movementScript = spawnedEnemy.GetComponent<EnemyMovement>();
 
         if (spawnPoint == leftSpawnPoint)
         {
-            movementScript.MoveRight();
+            movementScript.SetDirection(false); // Make the enemy face and move to the right
         }
         else
         {
-            movementScript.MoveLeft();
+            movementScript.SetDirection(true); // Make the enemy face and move to the left
         }
     }
+
 }
 
 
