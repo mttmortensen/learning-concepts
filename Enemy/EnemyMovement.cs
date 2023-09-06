@@ -5,7 +5,21 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     public float moveSpeed = 2f;
+
     private Rigidbody2D rb;
+
+    private Rigidbody2D Rb
+    {
+        get
+        {
+            if (rb == null)
+            {
+                rb = GetComponent<Rigidbody2D>();
+            }
+            return rb;
+        }
+    }
+
 
     private void Start()
     {
@@ -14,13 +28,13 @@ public class EnemyMovement : MonoBehaviour
 
     public void MoveRight()
     {
-        rb.velocity = new Vector2(moveSpeed, rb.velocity.y);
+        Rb.velocity = new Vector2(moveSpeed, Rb.velocity.y);
         transform.localScale = new Vector3(1, 1, 1); // Face right
     }
 
     public void MoveLeft()
     {
-        rb.velocity = new Vector2(-moveSpeed, rb.velocity.y);
+        Rb.velocity = new Vector2(-moveSpeed, Rb.velocity.y);
         transform.localScale = new Vector3(-1, 1, 1); // Face left
     }
 }
