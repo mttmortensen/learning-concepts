@@ -28,13 +28,13 @@ public class EnemyMovement : MonoBehaviour
 
     public void MoveRight()
     {
-        Rb.velocity = new Vector2(moveSpeed, Rb.velocity.y);
         transform.localScale = new Vector3(1, 1, 1); // Face right
+        transform.Translate(Vector2.right * transform.localScale.x * moveSpeed * Time.deltaTime); // Move enemy
     }
 
     public void MoveLeft()
     {
-        Rb.velocity = new Vector2(-moveSpeed, Rb.velocity.y);
         transform.localScale = new Vector3(-1, 1, 1); // Face left
+        transform.Translate(Vector2.left * transform.localScale.x * moveSpeed * Time.deltaTime); // Move enemy
     }
 }
