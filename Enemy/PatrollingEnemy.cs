@@ -30,7 +30,7 @@ public class PatrollingEnemy : MonoBehaviour
             anim.SetBool("IsIdle", false);
 
             // Edge Detection via rayCast creation
-            Vector2 rayStart = (direction == 1) ? transform.position + Vector3.right : transform.position + Vector3.left;
+            Vector2 rayStart = (direction == 1) ? transform.position + Vector3.right * 0.5f : transform.position + Vector3.left * 0.5f; // Adjusted ray start
             RaycastHit2D hit = Physics2D.Raycast(rayStart, Vector2.down, rayLength);
 
             if (hit.collider == null)
