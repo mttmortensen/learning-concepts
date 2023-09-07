@@ -7,6 +7,13 @@ public class EnemyMovement : MonoBehaviour
     public float moveSpeed;
     private bool moveToLeft = false;
 
+    private Animator anim;
+
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
+
     private void Update()
     {
         Move();
@@ -25,6 +32,10 @@ public class EnemyMovement : MonoBehaviour
             // Move right
             transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
         }
+
+        // Walking animation 
+        anim.SetBool("IsWalking", true);
+        anim.SetBool("IsIdle", false);
     }
     public void SetDirection(bool toLeft)
     {
