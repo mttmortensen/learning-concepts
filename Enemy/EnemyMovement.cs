@@ -4,84 +4,42 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    public float moveSpeed; // Speed of enemy 
-    public float thresholdDistance = 10f; // Value of when the enemy will follow player
+    public Transform playerToFollow; // Ref to player
+    public float moveSpeed = 5f; // Enemy speed
+    public float thresholdDistance = 5f; // Distance to start following
 
-    public GameObject player; // ref to who the enemy is following
-
-    private Animator anim;
-    private Rigidbody2D rb;
+    private Rigidbody2D rb; // Enemy's Rigidbody
 
     private void Start()
     {
-        anim = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>(); // Get Rigidbody component
     }
 
     private void Update()
     {
-        MoveTowardsTarget();
-    }
+        float distanceToPlayer = Vector2.Distance(transform.position, playerToFollow.position); // Calculate distance to player
 
-    private void MoveTowardsTarget()
-    {
-        if (player != null)
+        if (distanceToPlayer > thresholdDistance) // Check if within threshold
         {
-            float distanceToTarget = Vector2.Distance(transform.position, player.transform.position);
+            Vector2 direction = (playerToFollow.position - transform.position).normalized; // Get direction to player
+            rb.velocity = new Vector2(direction.x * moveSpeed, rb.velocity.y); // Set velocity towards player
 
-
-
-            if (distanceToTarget < thresholdDistance)
+            // Handle sprite direction
+            if (direction.x > 0)
             {
-                // Calculate the direction to move towards the player
-                Vector2 direction = (player.transform.position - transform.position).normalized;
-
-                // Move the enemy towards the player using Rigidbody2D
-                rb.velocity = new Vector2(direction.x * moveSpeed, rb.velocity.y);
-                               
-                Debug.Log("Distance to player: " + Vector2.Distance(transform.position, player.transform.position));
-                
-                if (direction.x < 0)
-                {
-
-                    // Face left 
-                    transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-                }
-                else
-                {
-                    // Face right
-                    transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-                }
-
-                // Walking animation 
-                anim.SetBool("IsWalking", true);
-                anim.SetBool("IsIdle", false);
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z); // Face right
             }
             else
             {
-                // Stop moving when player is out of range
-                rb.velocity = new Vector2(0, rb.velocity.y);
-
-                // Idle animation when not moving
-                anim.SetBool("IsWalking", false);
-                anim.SetBool("IsIdle", true);
+                transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z); // Face left
             }
-        }
-    }
-
-    public void SetDirection(bool toLeft)
-    {
-        if (toLeft)
-        {
-            // Face left
-            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
         else
         {
-            // Face right
-            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            rb.velocity = new Vector2(0, rb.velocity.y); // Stop if player is far
         }
     }
 }
+
 
 
