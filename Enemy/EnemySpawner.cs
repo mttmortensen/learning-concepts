@@ -7,8 +7,9 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public float spawnInterval;
-    public Transform leftSpawnPoint;
-    public Transform rightSpawnPoint;
+    public float maxNumberOfEnemies; // Max amount of enemies I want
+
+    private float currentNumberOfEnemies; // Keeps track of current enemy count
 
     void Start()
     {
@@ -17,29 +18,24 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SpawnEnemies()
     {
-        while (true)
+        while (currentNumberOfEnemies < maxNumberOfEnemies)
         {
             yield return new WaitForSeconds(spawnInterval);
             SpawnEnemy();
+            currentNumberOfEnemies++; // Increment the counter each time an enemy is spawned
         }
     }
 
     private void SpawnEnemy()
     {
-        Transform spawnPoint = (Random.Range(0, 2) == 0) ? leftSpawnPoint : rightSpawnPoint;
-
-        GameObject spawnedEnemy = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
+        GameObject spawnedEnemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
         EnemyMovement movementScript = spawnedEnemy.GetComponent<EnemyMovement>();
-
-        if (spawnPoint == leftSpawnPoint)
+        if (movementScript != null)
         {
-            movementScript.SetDirection(false); // Make the enemy face and move to the right
-        }
-        else
-        {
-            movementScript.SetDirection(true); // Make the enemy face and move to the left
+            movementScript.playerToFollow = GameObject.FindGameObjectWithTag("Player").transform; // Assuming your player has the tag "Player"
         }
     }
+
 
 }
 
