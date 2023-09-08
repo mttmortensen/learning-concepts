@@ -7,36 +7,36 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public float spawnInterval;
-    public float maxNumberOfEnemies; // Max amount of enemies I want
+    public EnemyManager enemyManager; // Reference to the central EnemyManager
 
-    private float currentNumberOfEnemies; // Keeps track of current enemy count
-
-    void Start()
+    private void Start()
     {
         StartCoroutine(SpawnEnemies());
     }
 
     IEnumerator SpawnEnemies()
     {
-        while (currentNumberOfEnemies < maxNumberOfEnemies)
+        while (enemyManager.currentNumberOfEnemies < enemyManager.maxNumberOfEnemies)
         {
             yield return new WaitForSeconds(spawnInterval);
             SpawnEnemy();
-            currentNumberOfEnemies++; // Increment the counter each time an enemy is spawned
         }
     }
 
     private void SpawnEnemy()
     {
-        GameObject spawnedEnemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
-        EnemyMovement movementScript = spawnedEnemy.GetComponent<EnemyMovement>();
-        if (movementScript != null)
+        if (enemyManager.currentNumberOfEnemies < enemyManager.maxNumberOfEnemies)
         {
-            movementScript.playerToFollow = GameObject.FindGameObjectWithTag("Player").transform; // Assuming your player has the tag "Player"
+            GameObject spawnedEnemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+            EnemyMovement movementScript = spawnedEnemy.GetComponent<EnemyMovement>();
+            if (movementScript != null)
+            {
+                movementScript.playerToFollow = GameObject.FindGameObjectWithTag("Player").transform;
+            }
+            enemyManager.EnemySpawned(); // Notify the manager that an enemy has been spawned
         }
     }
-
-
 }
+
 
 
