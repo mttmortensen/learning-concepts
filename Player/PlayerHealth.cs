@@ -5,31 +5,35 @@ using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] private int startingHealth;
+    [SerializeField] private int maxHealth;
     private int currentHealth;
 
     // Ref to HealthBar 
     public HealthBar healthBar;
 
-    public Animator anim;
+    [SerializeField] private Animator anim;
 
     private void Start()
     {
-        currentHealth = startingHealth;
-        healthBar.SetMaxHealth(currentHealth);
-        anim = GetComponent<Animator>();
+        currentHealth = maxHealth;
+        healthBar.UpdateHealthBar(1);
+        
+        if (anim == null)
+            anim = GetComponent<Animator>();
     }
 
     public void TakeDamage(int damage)
     {
         // Player gets hurt
-        currentHealth = Mathf.Clamp(currentHealth - damage, 0, startingHealth);
+        currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
+
+        // Update health bar
+        float healthPercentage = (float)currentHealth / maxHealth;
+        healthBar.UpdateHealthBar(healthPercentage);
 
         if (currentHealth > 0) 
         {
 
-            currentHealth -= damage;
-            healthBar.SetHealth(currentHealth);
             anim.SetTrigger("Hurt");
         }
         else

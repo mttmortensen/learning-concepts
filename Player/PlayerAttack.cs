@@ -6,15 +6,25 @@ public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private Collider2D attackCollider;
+    [SerializeField] private float attackCooldown = 1f; // Duration of the attack cooldown
+
+    private float lastAttackTime; // Time when the player last attacked
 
     void Update()
     {
-        if (Input.GetKeyDown("x"))
-            Attack();   
+        if (Time.time - lastAttackTime >= attackCooldown)
+        {
+            if (Input.GetKeyDown("x"))
+                Attack();   
+
+        }
     }
 
     public void Attack()
     {
+        // Set the last attack  time to the current time 
+        lastAttackTime = Time.time;
+
         animator.SetTrigger("Attack");
 
     }

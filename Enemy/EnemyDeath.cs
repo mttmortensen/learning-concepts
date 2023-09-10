@@ -16,9 +16,10 @@ public class EnemyDeath : MonoBehaviour
         {
             isDead = true;
             anim.SetTrigger("Death");
-            rb.isKinematic = true;
+            rb.bodyType = RigidbodyType2D.Static;
             collider.enabled = false;
             GetComponent<PatrollingEnemy>().enabled = false;
+            GetComponent<EnemyMovement>().enabled = false;
             StartCoroutine(RemoveBody());    
         }
     }

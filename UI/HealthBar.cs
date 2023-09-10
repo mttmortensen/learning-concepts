@@ -5,25 +5,17 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
+    // Reference to the health fill image
+    public Image healthFillImage;
 
-    public Slider slider;
-
-    public Gradient gradient;
-
-    public Image fill;
-
-    public void SetMaxHealth(int health)
+    // Update the health bar UI based on the current health percentage
+    public void UpdateHealthBar(float healthPercentage)
     {
-        slider.maxValue = health;
-        slider.value = health;
+        // Ensure the health percentage is between 0 and 1
+        healthPercentage = Mathf.Clamp01(healthPercentage);
 
-        fill.color = gradient.Evaluate(1f);
-    }
-
-    public void SetHealth(int health)
-    {
-        slider.value = health;
-
-        fill.color = gradient.Evaluate(slider.normalizedValue);
+        // Update the fill amount of the health fill image
+        healthFillImage.fillAmount = healthPercentage;
     }
 }
+
