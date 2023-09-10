@@ -49,13 +49,14 @@ public class PlayerAttack : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
-
             EnemyDeath ed = collision.GetComponent<EnemyDeath>();
 
             if (ed != null)
             {
                 ed.Death();
+                EnemyManager.Instance.EnemyDefeated(); // Use the singleton instance to call the EnemyDefeated method
             }
         }
     }
+
 }
